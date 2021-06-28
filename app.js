@@ -23,8 +23,10 @@ app.use(cors());
 
 // Routes
 const containerRoutes = require('./routes/containerRoutes');
+const countRoutes = require('./routes/countRoutes');
 
 app.use('/api/v1', containerRoutes);
+app.use('/api/v1', countRoutes);
 
 //Port
 const port = process.env.PORT || 8080;
