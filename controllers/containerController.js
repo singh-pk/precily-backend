@@ -1,14 +1,6 @@
 const Container = require('../models/containerSchema');
-const Count = require('../models/countSchema');
 
-function incCount() {
-  return Count.findOneAndUpdate(
-    { slug: 'count' },
-    { $inc: { count: 1 } }
-  ).exec();
-}
-
-exports.addImage = (req, res) => {
+exports.addImage = (req, res, next) => {
   // console.time('addImage');
 
   const { containerId, imageUrl } = req.body;
@@ -18,15 +10,15 @@ exports.addImage = (req, res) => {
   image.save(err => {
     if (err) return res.status(400).json({ error: err });
 
-    incCount();
-
     return res.json({ message: 'success' });
   });
+
+  next();
 
   // console.timeEnd('addImage');
 };
 
-exports.updateImage = (req, res) => {
+exports.updateImage = (req, res, next) => {
   // console.time('updateImage');
 
   const { containerId, imageUrl } = req.body;
@@ -34,10 +26,10 @@ exports.updateImage = (req, res) => {
   Container.findOneAndUpdate({ containerId }, { imageUrl }, err => {
     if (err) return res.status(400).json({ error: err });
 
-    incCount();
-
     return res.json({ message: 'success' });
   });
+
+  next();
 
   // console.timeEnd('updateImage');
 };
